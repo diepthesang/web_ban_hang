@@ -7,7 +7,7 @@ import React from 'react'
 import MySideBar from './MySideBar';
 import MyCard from './MyCard';
 
-function MyBody() {
+function MyHomePage() {
     return (
         <Box paddingTop={9}>
             <Grid container paddingLeft={1} paddingRight={1} >
@@ -53,4 +53,4 @@ function MyBody() {
     )
 }
 
-export default MyBody
+export default MyHomePage

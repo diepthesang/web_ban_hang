@@ -1,7 +1,7 @@
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import MyBody from './components/MyHomePage';
+import MyHomePage from './components/MyHomePage';
 import MyAppbar from './components/MyAppbar';
 import MyDetail from './components/MyDetail';
 import MyFooter from './components/MyFooter';
@@ -15,8 +15,8 @@ function App() {
       >
         <MyAppbar></MyAppbar>
         <Routes>
-          <Route path='/' element={<MyBody />} />
-          <Route path='/detail' element={<MyDetail />} />
+          <Route path='/home' element={<MyHomePage />} />
+          <Route path='/' element={<MyDetail />} />
         </Routes>
         <MyFooter></MyFooter>
       </Stack>
