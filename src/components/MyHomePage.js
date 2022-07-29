@@ -1,7 +1,7 @@
 
 import { Grid } from '@mui/material'
 import { Box } from '@mui/system'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import MySideBar from './MySideBar';
 import MyCard from './MyCard';
 import axios from 'axios';
@@ -33,7 +33,6 @@ function MyHomePage() {
 
     const getDataProductByName = async () => {
         const { data } = await axios.get(`/searchProduct/${search}`)
-        console.log(search)
         console.log('get data search')
         console.log(data);
         setProduct(data);
@@ -43,11 +42,18 @@ function MyHomePage() {
         // getDataProduct()
         getDataProductByName()
         getDataCategory()
-        //  getDataProductByCateId()
-    }, [cateId], [search])
+        // getDataProductByCateId()
+    }, [search])
+
+    useEffect(() => {
+        getDataProductByCateId()
+    }, [cateId])
+
+
 
     return (
         <Box paddingTop={9} minHeight='100vh'>
+
             <Grid container paddingLeft={1} paddingRight={1} >
                 <Grid item xs={12} sm={2} width='100vw'>
                     {category.map((item) => {
@@ -60,6 +66,7 @@ function MyHomePage() {
                     {product.map(item => {
                         return (<Grid item paddingTop={2}>
                             <Box>
+                                {console.log(item.name)}
                                 <MyCard name={item.name} price={item.price} img={item.img} intro={item.intro} id={item.id} />
                             </Box>
                         </Grid>)

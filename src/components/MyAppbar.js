@@ -15,8 +15,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getProductNameFromSearch } from '../redux/searchSlice'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -61,6 +62,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function MyAppbar() {
 
     const dispatch = useDispatch()
+
+    const cartNumber = useSelector(state => state.cart.cartNumber)
+
 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -128,7 +132,7 @@ export default function MyAppbar() {
             <MenuItem>
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                     <Badge badgeContent={4} color="error">
-                        <MailIcon />
+                        <ShoppingCartIcon />
                     </Badge>
                 </IconButton>
                 <p>Messages</p>
@@ -140,7 +144,7 @@ export default function MyAppbar() {
                     color="inherit"
                 >
                     <Badge badgeContent={17} color="error">
-                        <NotificationsIcon />
+                        <ShoppingCartIcon />
                     </Badge>
                 </IconButton>
                 <p>Notifications</p>
@@ -200,8 +204,8 @@ export default function MyAppbar() {
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="error">
-                                <MailIcon />
+                            <Badge badgeContent={cartNumber} color="error">
+                                <ShoppingCartIcon />
                             </Badge>
                         </IconButton>
                         <IconButton
