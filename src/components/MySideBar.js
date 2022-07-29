@@ -1,43 +1,26 @@
-import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
-import React from 'react'
+import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCategoryId } from '../redux/categorySlice';
 
-function MySideBar() {
+
+function MySideBar(props) {
+    const [category, setCategory] = useState(props)
+    const ditpatch = useDispatch()
+
+
+
     return (
         <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} >
             <nav aria-label="main mailbox folders">
-                <List>
-                    <ListItem disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {/* <InboxIcon /> */}
-                            </ListItemIcon>
-                            <ListItemText primary="Inbox" />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {/* <InboxIcon /> */}
-                            </ListItemIcon>
-                            <ListItemText primary="Drafts" />
-                        </ListItemButton>
-                    </ListItem>
-                </List>
-            </nav>
-            <Divider />
-            <nav aria-label="secondary mailbox folders">
-                <List>
-                    <ListItem disablePadding>
-                        <ListItemButton>
-                            <ListItemText primary="Trash" />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemButton component="a" href="#simple-list">
-                            <ListItemText primary="Spam" />
-                        </ListItemButton>
-                    </ListItem>
-                </List>
+                <ListItem disablePadding >
+                    <ListItemButton onClick={() => {
+                        ditpatch(getCategoryId({ categoryId: props.cateId }));
+                       // console.log(props.cateId)
+                    }}>
+                        <ListItemText primary={category.name} />
+                    </ListItemButton>
+                </ListItem>
             </nav>
         </Box>
     )

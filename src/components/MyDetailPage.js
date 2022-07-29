@@ -1,12 +1,39 @@
 import { Button, Grid, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import MyStarRating from './MyStarRating'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-function MyDetail() {
+function MyDetail(props) {
+
+
+    const [product, setProduct] = useState({});
+    const productId = useSelector((state) => state.product.productId)
+
+    const getDataProductById = async () => {
+        let { data } = await axios.get(`/product/${productId}`)
+        console.log(data)
+        setProduct(data[0])
+    }
+
+
+
+    useEffect(
+        () => {
+            getDataProductById()
+        }
+        , []
+
+    )
+
+
+
+
     return (
         <Box minHeight='100vh' marginTop={9} >
+            {console.log(product.name)}
             <Grid container paddingLeft={1} paddingRight={1} >
                 <Grid container
                     direction="row"
@@ -16,12 +43,12 @@ function MyDetail() {
                     <Box
                         component="img"
                         sx={{
-                          //  boxShadow: 3,
+                            //  boxShadow: 3,
                             height: 400,
                             width: 400,
                         }}
                         alt="The house from the offer."
-                        src="https://www.xtmobile.vn/vnt_upload/product/01_2022/thumbs/600_600_iphone_12_mau_tim_purple_64gb_xtmobile.jpg"
+                        src={product.img}
                     />
                 </Grid>
                 <Grid container xs={12} sm={6} marginTop={3}>
@@ -29,13 +56,16 @@ function MyDetail() {
                         <Stack>
                             <Box>
                                 <Typography gutterBottom variant="h4" component="div">
-                                    iPhone 12 64GB (LikeNew 99,99% - FullBox) - Pin 100%
+                                    {product.name}
                                 </Typography>
                             </Box>
                             <MyStarRating></MyStarRating>
                             <Typography variant="h4" component="h2" color='red'>
-                                10000000000
+                                {product.price}
                             </Typography>
+                            <Typography gutterBottom variant="h4" component="div">
+                                    {product.description}
+                                </Typography>
                             <Stack direction='row' spacing={2}>
                                 <Box>
                                     <Button variant="outlined">Mua ngay</Button>
