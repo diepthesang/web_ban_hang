@@ -17,7 +17,7 @@ export const cartSlice = createSlice(
     }
 )
 
-// alo
+
 
 export const { setcartNumber } = cartSlice.actions
 export default cartSlice.reducer;
