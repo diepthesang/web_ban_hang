@@ -6,7 +6,7 @@ export const searchSlice = createSlice(
     {
         name: "search",
         initialState: {
-            productName: '11'
+            productName: 'iphone '
         },
         reducers: {
             getProductNameFromSearch: (state, action) => {
