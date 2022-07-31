@@ -1,4 +1,5 @@
 var _ = require('lodash');
+const { config } = require('process');
 
 var name = [
     {
@@ -19,5 +20,12 @@ var name = [
     },
 ]
 
-var ten = _.filter(name, { name: 'linh' })
-console.log(ten)
+var incl = name.includes({ name: 'sang', id: 1 })
+
+console.log(incl)
+
+
+
+var arr1 = [{ name: 'sang' }, 'thu trang'];
+
+console.log(arr1.includes({ name: 'sang' }))

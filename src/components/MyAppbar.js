@@ -18,6 +18,8 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductNameFromSearch } from '../redux/searchSlice'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Link } from 'react-router-dom';
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -172,21 +174,22 @@ export default function MyAppbar() {
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
+                        component={Link} to="/"
                         size="large"
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
                         sx={{ mr: 2 }}
                     >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography
+                        <PhoneIphoneIcon />
+                    </IconButton  >
+                    <Typography onClick={() => { }}
                         variant="h6"
                         noWrap
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}
                     >
-                        MUI
+                        MOBILE SHOP
                     </Typography>
                     <Search>
                         <SearchIconWrapper>
@@ -203,7 +206,7 @@ export default function MyAppbar() {
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                        <IconButton size="large" aria-label="show 4 new mails" color="inherit" component={Link} to='/cart' >
                             <Badge badgeContent={cartNumber} color="error">
                                 <ShoppingCartIcon />
                             </Badge>

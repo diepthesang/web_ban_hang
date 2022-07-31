@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react'
 import MyStarRating from './MyStarRating'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart, setCartNumber } from '../redux/cartSlice'
 function MyDetail(props) {
 
-
+    const dispatch = useDispatch()
     const [product, setProduct] = useState({});
     const productId = useSelector((state) => state.product.productId)
 
@@ -64,14 +64,16 @@ function MyDetail(props) {
                                 {product.price}
                             </Typography>
                             <Typography gutterBottom variant="h4" component="div">
-                                    {product.description}
-                                </Typography>
+                                {product.description}
+                            </Typography>
                             <Stack direction='row' spacing={2}>
                                 <Box>
                                     <Button variant="outlined">Mua ngay</Button>
                                 </Box>
                                 <Box>
-                                    <Button variant="outlined">
+                                    <Button variant="outlined" onClick={() => {
+                                        dispatch(addToCart({ productId: product.id, amount: 1, name: product.name, price: product.price, img: product.img }))
+                                    }} >
                                         <AddShoppingCartIcon></AddShoppingCartIcon>
                                     </Button>
                                 </Box>

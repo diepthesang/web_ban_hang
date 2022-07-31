@@ -5,6 +5,7 @@ import MyHomePage from './components/MyHomePage';
 import MyAppbar from './components/MyAppbar';
 import MyDetail from './components/MyDetailPage';
 import MyFooter from './components/MyFooter';
+import MyCartPage from './components/MyCartPage'
 import { Stack } from '@mui/material';
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
           <Route path='/detail'>
             <Route path=':id' element={<MyDetail />} />
           </Route>
-
+          <Route path='/cart' element={<MyCartPage />} />
         </Routes>
         <MyFooter></MyFooter>
       </Stack>
