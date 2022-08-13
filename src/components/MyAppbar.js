@@ -18,8 +18,12 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductNameFromSearch } from '../redux/searchSlice'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import axios from 'axios';
+import { useEffect, useState, useLayoutEffect } from 'react';
+import LoginIcon from '@mui/icons-material/Login';
+
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -62,11 +66,45 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function MyAppbar() {
+    const navigate = useNavigate()
 
     const dispatch = useDispatch()
+    const [cartNumber, setCartNumber] = useState(0)
+    const [token, setToken] = useState('')
 
-    const cartNumber = useSelector(state => state.cart.cartNumber)
+    //const addNumber = useSelector(state => state.cart.cartNumber)
+    //  const [addMoreNumber, setAddMoreNumber] = useState(0)
+    const totalProductInCart = useSelector((state) => state.cart.cartNumber)
+    console.log(totalProductInCart)
 
+
+    let getAllAmountInCart = async () => {
+        let token = localStorage['assToken']
+        console.log(token);
+        setToken(token)
+        let allAmount = await axios.get('/totalAmount',
+            {
+                headers: {
+                    'Authorization': localStorage['assToken'],
+                }
+            })
+        console.log(allAmount.data.totalAmount)
+        setCartNumber(allAmount.data.totalAmount)
+
+    }
+
+    useEffect(
+        () => {
+            console.log('use effect')
+            getAllAmountInCart()
+        }, [token]
+    )
+
+    useEffect(
+        () => {
+            getAllAmountInCart()
+        }, [totalProductInCart]
+    )
 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -110,7 +148,11 @@ export default function MyAppbar() {
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={() => {
+                localStorage.removeItem("assToken");
+                handleMenuClose()
+                navigate('/login')
+            }}>Đăng xuất</MenuItem>
         </Menu>
     );
 
@@ -211,16 +253,8 @@ export default function MyAppbar() {
                                 <ShoppingCartIcon />
                             </Badge>
                         </IconButton>
-                        <IconButton
-                            size="large"
-                            aria-label="show 17 new notifications"
-                            color="inherit"
-                        >
-                            <Badge badgeContent={17} color="error">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
+
+                        {localStorage['assToken'] ? <IconButton
                             size="large"
                             edge="end"
                             aria-label="account of current user"
@@ -231,6 +265,10 @@ export default function MyAppbar() {
                         >
                             <AccountCircle />
                         </IconButton>
+                            :
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit" component={Link} to='/cart' >
+                                <LoginIcon />
+                            </IconButton>}
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton

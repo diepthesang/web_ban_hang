@@ -4,21 +4,22 @@ import React, { useEffect, useState } from 'react'
 import MyStarRating from './MyStarRating'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, setCartNumber } from '../redux/cartSlice'
-function MyDetail(props) {
+import { useSelector, useDispatch } from 'react-redux';
+import { addMoreToCart, removeCartNumber, setTotal } from '../redux/cartSlice';
 
+import { useParams, useNavigate } from 'react-router-dom';
+function MyDetailPage(props) {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [product, setProduct] = useState({});
     const productId = useSelector((state) => state.product.productId)
+    let { id } = useParams()
 
     const getDataProductById = async () => {
-        let { data } = await axios.get(`/product/${productId}`)
+        let { data } = await axios.get(`/product/${productId || id}`)
         console.log(data)
         setProduct(data[0])
     }
-
-
 
     useEffect(
         () => {
@@ -28,6 +29,22 @@ function MyDetail(props) {
 
     )
 
+    let addToCart = async (productId, name, price, img, amount) => {
+        let res = await axios.post('/setProductCart',
+            {
+                productId: productId,
+                name: name,
+                price: price,
+                img: img,
+                amount: amount
+            },
+            {
+                headers: {
+                    'Authorization': localStorage['assToken'],
+                }
+            },)
+        console.log(res.data)
+    }
 
 
 
@@ -67,12 +84,23 @@ function MyDetail(props) {
                                 {product.description}
                             </Typography>
                             <Stack direction='row' spacing={2}>
+                                {/* <Box>
+                                    <Button variant="outlined" onClick={() => { dispatch(addMoreToCart()) }} >Mua ngay</Button>
+                                </Box> */}
                                 <Box>
-                                    <Button variant="outlined">Mua ngay</Button>
-                                </Box>
-                                <Box>
+                                    {/* <Button size="small" onClick={() => {
+                                        dispatch(addMoreToCart())
+                                    }} ><AddShoppingCartIcon /></Button> */}
                                     <Button variant="outlined" onClick={() => {
-                                        dispatch(addToCart({ productId: product.id, amount: 1, name: product.name, price: product.price, img: product.img }))
+                                        if (!localStorage['assToken']) {
+                                            console.log(localStorage['assToken'])
+                                            navigate('/login')
+
+                                        } else {
+                                            dispatch(addMoreToCart())
+                                            addToCart(id, product.name, product.price, product.img, 1)
+                                        }
+
                                     }} >
                                         <AddShoppingCartIcon></AddShoppingCartIcon>
                                     </Button>
@@ -81,9 +109,9 @@ function MyDetail(props) {
                         </Stack>
                     </Grid>
                 </Grid>
-            </Grid>
-        </Box>
+            </Grid >
+        </Box >
     )
 }
 
-export default MyDetail
+export default MyDetailPage

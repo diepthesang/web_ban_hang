@@ -7,73 +7,40 @@ export const cartSlice = createSlice(
         initialState: {
             cartNumber: 0,
             total: 0,
-            cart: []
-
+            firstname: '',
+            lastname: '',
+            phoneNumber: '',
+            address: '',
+            city: '',
+            country: '',
         },
         reducers: {
-            // setCartNumber: (state) => {
-            //     state.cartNumber += 1;
 
-            // },
-            removeCartNumber: (state, action) => {
-
-                var ob = _.find(state.cart, {
-                    productId: action.payload.productId,
-
-                })
-                let index = 0;
-                if (ob) {
-                    for (let item in state.cart) {
-                        if (state.cart[item].productId === action.payload.productId) {
-                            index = item;
-                            console.log(index);
-                        }
-                    }
-                    if (state.cart[index].amount > 0) {
-                        state.cartNumber -= 1;
-                        console.log(state.cart[index].amount)
-                        state.cart[index].amount = state.cart[index].amount - action.payload.amount
-                    } else {
-                        return
-                    }
-
-
-
-                }
-            },
-            addToCart: (state, action) => {
+            addMoreToCart: (state) => {
                 state.cartNumber += 1;
-
-                var ob = _.find(state.cart, {
-                    productId: action.payload.productId,
-
-                })
-                let index = 0;
-                if (ob) {
-                    for (let item in state.cart) {
-                        if (state.cart[item].productId === action.payload.productId) {
-                            index = item;
-                            console.log(index);
-                        }
-                    }
-                    state.cart[index].amount = action.payload.amount + state.cart[index].amount
-                } else {
-                    state.cart.push(
-                        {
-                            productId: action.payload.productId,
-                            amount: action.payload.amount,
-                            name: action.payload.name,
-                            price: action.payload.price,
-                            img: action.payload.img,
-                        }
-                    )
-
-                }
-
             },
-            setTotal: (state) => {
-                let arr = state.cart.map(item => item.amount * item.price)
-                state.total = _.sum(arr)
+            setTotal: (state, action) => {
+                state.total = action.payload.total;
+            },
+            infoCheckout: (state, action) => {
+                if (action.payload.firstname) {
+                    state.firstname = action.payload.firstname
+                }
+                if (action.payload.lastname) {
+                    state.lastname = action.payload.lastname
+                }
+                if (action.payload.phoneNumber) {
+                    state.phoneNumber = action.payload.phoneNumber
+                }
+                if (action.payload.address) {
+                    state.address = action.payload.address
+                }
+                if (action.payload.city) {
+                    state.city = action.payload.city
+                }
+                if (action.payload.country) {
+                    state.country = action.payload.country
+                }
 
             }
         }
@@ -82,5 +49,5 @@ export const cartSlice = createSlice(
 
 
 
-export const { setCartNumber, addToCart, removeCartNumber, setTotal } = cartSlice.actions
+export const { setCartNumber, addMoreToCart, removeCartNumber, setTotal, infoCheckout } = cartSlice.actions
 export default cartSlice.reducer;

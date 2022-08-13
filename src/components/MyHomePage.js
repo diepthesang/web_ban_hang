@@ -56,15 +56,15 @@ function MyHomePage() {
 
             <Grid container paddingLeft={1} paddingRight={1} >
                 <Grid item xs={12} sm={2} width='100vw'>
-                    {category.map((item) => {
+                    {category.map((item, index) => {
                         return (
-                            <MySideBar name={item.name} cateId={item.id} />
+                            <MySideBar name={item.name} cateId={item.id} key={index} />
                         )
                     })}
                 </Grid>
                 <Grid container justifyContent='space-around' alignItems='flex-start' xs={12} sm={10}  >
-                    {product.map(item => {
-                        return (<Grid item paddingTop={2}>
+                    {product.map((item, index) => {
+                        return (<Grid item paddingTop={2} key={item.id}>
                             <Box>
                                 {console.log(item.name)}
                                 <MyCard name={item.name} price={item.price} img={item.img} intro={item.intro} id={item.id} />

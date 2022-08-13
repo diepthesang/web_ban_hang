@@ -1,14 +1,15 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Stack, Typography } from '@mui/material'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductId } from '../redux/productSlice';
-import { setCartNumber, addToCart } from '../redux/cartSlice'
+import { setCartNumber, addMoreToCart } from '../redux/cartSlice'
+import { useEffect } from 'react';
 
 function MyCard(props) {
     const { name, price, img, intro, id } = props;
     const dispatch = useDispatch()
-    const cartNumber = useSelector(state => state.cart.cartNumber);
+    // const cartNumber = useSelector(state => state.cart.cartNumber);
 
 
 
@@ -29,11 +30,12 @@ function MyCard(props) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Stack direction='row' justifyContent="center">
-                    <Button size="small" onClick={() => {
-                        dispatch(addToCart({ productId: id, amount: 1, name: name, price: price, img: img }))
-                    }} ><AddShoppingCartIcon /></Button>
-                    <Button component={Link} to={'/detail/' + id} onClick={() => {
+                <Stack direction='row' justifyContent="space-evenly">
+                    <Typography variant="h7" color='red' >
+                        {price} VND
+                    </Typography>
+
+                    <Button variant="outlined" component={Link} to={'/detail/' + id} onClick={() => {
                         dispatch(getProductId({ productId: id }))
                     }} size="small">Xem chi tiết</Button>
                 </Stack>
